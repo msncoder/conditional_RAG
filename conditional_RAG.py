@@ -21,7 +21,7 @@ def build_retriver(pdf_path: str):
     documents = loader.load()
     splitter = RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=100)
     chunks = splitter.split_documents(documents)
-    vectorstore = FAISS.from_documents(chunks, embeddings)
+    vectorstore = FAISS.from_documents(chunks, embeddings) 
     return vectorstore.as_retriever(search_kwargs={"k": 3})
 
 academic_retriever = build_retriver("workflows/conditional/academic.pdf")
@@ -72,5 +72,3 @@ def classifier_node(state : State) -> dict:
         category = "general"
     
     return {"query_type" : category}
-
-
