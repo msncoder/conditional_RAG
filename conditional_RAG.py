@@ -29,3 +29,12 @@ fee_retriever = build_retriver("workflows/conditional/fee_structure.pdf")
 
 
 llm = ChatGoogleGenerativeAI(model="gemini-3.5-flash-lite", temperature=0.4)
+
+
+#Step 2 state 
+
+class State(TypedDict):
+    program: str
+    messsage: Annotated[list, add_messages]
+    query_type: str
+    retrieved_context: str
