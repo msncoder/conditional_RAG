@@ -157,3 +157,22 @@ graph.add_edge("general","response")
 graph.add_edge("response",END)
 
 app = graph.compile()
+
+
+print("welcome to the College assistant \n\n")
+
+print("which programe are you in ")
+print("1. BCA")
+print("2. BBA")
+print("3. B.com (H)")
+
+choice = input("\nEnter 1, 2 or 3 ")
+
+programme_map = {
+    "1": "BCA",
+    "2": "BBA",
+    "3": "B.Com (H)"
+}
+student_programme = programme_map.get(choice, "BCA")
+
+print(f"\nGreat! You're set as a {student_programme} student.")
