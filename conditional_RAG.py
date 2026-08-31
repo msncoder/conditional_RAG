@@ -176,3 +176,17 @@ programme_map = {
 student_programme = programme_map.get(choice, "BCA")
 
 print(f"\nGreat! You're set as a {student_programme} student.")
+
+
+while True:
+    user_query = input("You:  ")
+
+    if user_query.lower() in ["exit","quit"]:
+        break
+    
+    result = app.invoke({
+        "programme": student_programme,
+        "messages": [("human",user_query)]
+    })
+
+    print(f"Assistant : {result['messages'][-1].content}")
