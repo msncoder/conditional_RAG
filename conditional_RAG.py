@@ -88,3 +88,8 @@ def fee_rag_node(state: State) -> dict:
     docs = fee_retriever.invoke(query)
     context = "\n\n".join([doc.page_content for doc in docs])
     return {"retrieved_context": context}
+
+
+def general_node(state: State) -> dict:
+    """Answers directly using the LLM's own knowledge, no retrieval needed."""
+    return {"retrieved_context": "NO_RETRIEVAL_NEEDED"}
