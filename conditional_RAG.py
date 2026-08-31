@@ -93,3 +93,29 @@ def fee_rag_node(state: State) -> dict:
 def general_node(state: State) -> dict:
     """Answers directly using the LLM's own knowledge, no retrieval needed."""
     return {"retrieved_context": "NO_RETRIEVAL_NEEDED"}
+
+
+def response_node(state: State) -> dict:
+    """Generates the final answer, personalized using the student's programme."""
+    query = state["messages"][-1].content
+    programme = state.get("programme", "Unknown")
+    context = state["retrieved_context"]
+
+    if context == "NO_RETRIEVAL_NEEDED":
+        prompt = (
+            f"You are a friendly college assistant talking to a {programme} student. "
+            f"Answer this question using your own general knowledge:\n\n{query}"
+        )
+    else:
+        prompt = (
+            f"You are a college assistant helping a {programme} student. "
+            f"Use the following context from the official college documents to answer "
+            f"the question accurately. If the context mentions specific figures for "
+            f"different programmes, highlight the one relevant to {programme} if possible.\n\n"
+            f"Context:\n{context}\n\n"
+            f"Question: {query}\n\n"
+            f"Give a clear, friendly, and precise answer."
+        )
+
+    response = llm.invoke(prompt)
+    return {"messages": [("ai", response.content.strip())]}
