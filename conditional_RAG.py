@@ -24,7 +24,7 @@ def build_retriver(pdf_path: str):
     vectorstore = FAISS.from_documents(chunks, embeddings) 
     return vectorstore.as_retriever(search_kwargs={"k": 3})
 
-academic_retriever = build_retriver("workflows/conditional/academic.pdf")
+acedemic_retriever = build_retriver("workflows/conditional/academic.pdf")
 fee_retriever = build_retriver("workflows/conditional/fee_structure.pdf")
 
 
@@ -72,3 +72,11 @@ def classifier_node(state : State) -> dict:
         category = "general"
     
     return {"query_type" : category}
+
+
+def academic_rag_node(state: State) -> dict:
+    """Retrieves relevant chunks from the academics handbook."""
+    query = state["messages"][-1].content
+    docs = acedemic_retriever.invoke(query)
+    context = "\n\n".join([doc.page_content for doc in docs])
+    return {"retrieved_context": context}
