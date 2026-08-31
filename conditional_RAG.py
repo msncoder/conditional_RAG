@@ -80,3 +80,11 @@ def academic_rag_node(state: State) -> dict:
     docs = acedemic_retriever.invoke(query)
     context = "\n\n".join([doc.page_content for doc in docs])
     return {"retrieved_context": context}
+
+
+def fee_rag_node(state: State) -> dict:
+    """Retrieves relevant chunks from the fee structure PDF."""
+    query = state["messages"][-1].content
+    docs = fee_retriever.invoke(query)
+    context = "\n\n".join([doc.page_content for doc in docs])
+    return {"retrieved_context": context}
